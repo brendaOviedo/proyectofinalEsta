@@ -3,6 +3,8 @@
 Aplicación estadística que se abre en el navegador con **doble clic en `ABRIR.html`**.
 Funciona sin internet, sin instalaciones, sin cuentas y sin comandos.
 
+**Integrante:** Brenda Maribel Oviedo Catalan — Carné 6691-25-3920
+
 ## Módulos
 
 | Grupo | Módulos |
@@ -37,5 +39,5 @@ regularizada, Φ normal) están en `recursos/js/estadistica.js`.
 ## Entrega
 
 Comprima en un .zip: `ABRIR.html`, `recursos/`, `ejemplos/`, `Guia_de_uso.pdf` e `Informe.pdf`.
-Antes de entregar, escriba los nombres de los integrantes en `docs/fuentes/informe.html` y ejecute
-`docs/fuentes/generar-pdf.bat` para regenerar `Informe.pdf`.
+Si edita `docs/fuentes/informe.html` o `docs/fuentes/guia-de-uso.html`, ejecute
+`docs/fuentes/generar-pdf.bat` para regenerar los PDF.
