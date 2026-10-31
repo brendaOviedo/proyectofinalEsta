@@ -38,6 +38,9 @@ regularizada, Φ normal) están en `recursos/js/estadistica.js`.
 
 ## Entrega
 
-Comprima en un .zip: `ABRIR.html`, `recursos/`, `ejemplos/`, `Guia_de_uso.pdf` e `Informe.pdf`.
+Ejecute `python herramientas/empaquetar.py`. Genera `ProyectoFinal_Estadistica_BrendaOviedo_6691-25-3920.zip`
+con `ABRIR.html`, `recursos/`, `ejemplos/`, `Guia_de_uso.pdf` e `Informe.pdf`. El `ABRIR.html` del .zip lleva el CSS
+y el JavaScript incrustados, para que funcione aunque se abra con doble clic desde dentro del .zip
+(Windows solo extrae ese archivo a una carpeta temporal).
 Si edita `docs/fuentes/informe.html` o `docs/fuentes/guia-de-uso.html`, ejecute
 `docs/fuentes/generar-pdf.bat` para regenerar los PDF.
