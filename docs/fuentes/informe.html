@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Informe — Calculadora Estadística</title>
+<style>
+  @page { size: letter; margin: 16mm 16mm 18mm; }
+  body { font: 10.5pt/1.45 "Segoe UI", Arial, sans-serif; color: #1d2733; margin: 0; }
+  h1 { font-size: 20pt; color: #174a78; margin: 0 0 4px; }
+  h2 { font-size: 13.5pt; color: #174a78; border-bottom: 2px solid #1f5f99; padding-bottom: 2px; margin: 18px 0 8px; break-after: avoid; }
+  h3 { font-size: 11pt; margin: 12px 0 4px; break-after: avoid; }
+  table { border-collapse: collapse; width: 100%; margin: 6px 0 10px; font-size: 9.3pt; }
+  th, td { border: 1px solid #c9d3dd; padding: 3px 6px; text-align: left; vertical-align: top; }
+  th { background: #e9eff5; }
+  tr { break-inside: avoid; }
+  td.n { font-family: Consolas, monospace; white-space: nowrap; }
+  code, .f { font-family: Consolas, monospace; font-size: 9.4pt; }
+  .portada { border: 1px solid #c9d3dd; border-radius: 8px; padding: 16px 20px; margin-bottom: 10px; background: #f7f9fb; }
+  .portada p { margin: 3px 0; }
+  .ok { color: #1e7b45; font-weight: 700; }
+  .mal { color: #b42318; font-weight: 700; }
+  .prueba { break-inside: avoid; margin-bottom: 10px; }
+  .prueba h3 { margin-bottom: 2px; }
+  .prueba p { margin: 2px 0; }
+  .calc { background: #f7f9fb; border-left: 3px solid #1f5f99; padding: 6px 12px; margin: 6px 0; break-inside: avoid; }
+  .calc p { margin: 2px 0; }
+  ul { margin: 4px 0; padding-left: 20px; }
+</style>
+</head>
+<body>
+  <h1>Calculadora Estadística</h1>
+  <div class="portada">
+    <p><b>Curso:</b> Estadística I · Proyecto final</p>
+    <p><b>Carrera:</b> Ingeniería en Sistemas</p>
+    <p><b>Integrantes:</b> <span class="integrantes">[Escriba aquí los nombres y carnés de los integrantes]</span></p>
+    <p><b>Fecha de entrega:</b> 31 de octubre de 2026</p>
+  </div>
+
+  <h2>1. Descripción de la aplicación</h2>
+  <p>Aplicación web que se abre con doble clic en <code>ABRIR.html</code> y funciona en el navegador sin internet, sin instalaciones, sin cuentas y sin comandos.
+    Tiene 12 módulos: Descriptiva, Conteo y probabilidad, Binomial, Hipergeométrica, Poisson, Uniforme continua, Normal, Gamma, Exponencial, Ji cuadrada,
+    Lognormal y Teorema del límite central. Cada módulo muestra definición, parámetros, supuestos, media y varianza; campos con instrucciones; botones
+    <b>Calcular</b>, <b>Limpiar</b>, <b>Cargar ejemplo</b> e <b>Importar archivo</b>; y como resultado una tabla, el procedimiento paso a paso, una gráfica y la interpretación.
+    Los conceptos de variable aleatoria y esperanza se explican en la página de inicio y en la definición de cada distribución (qué cuenta o mide X y E[X]).</p>
+
+  <h3>Contenido de la carpeta</h3>
+  <table>
+    <tr><th>Archivo / carpeta</th><th>Contenido</th></tr>
+    <tr><td><code>ABRIR.html</code></td><td>Archivo principal. Se abre con doble clic.</td></tr>
+    <tr><td><code>recursos/estilos.css</code></td><td>Estilos de la interfaz.</td></tr>
+    <tr><td><code>recursos/js/estadistica.js</code></td><td>Motor de cálculo: todas las fórmulas y funciones numéricas.</td></tr>
+    <tr><td><code>recursos/js/modulos.js</code></td><td>Teoría, campos, ejemplo precargado e interpretación de cada módulo.</td></tr>
+    <tr><td><code>recursos/js/app.js</code></td><td>Interfaz: menú, botones, validación, importación de archivos y gráficas.</td></tr>
+    <tr><td><code>recursos/js/pruebas.js</code></td><td>Las 15 pruebas documentadas (se ejecutan en el módulo Comprobación).</td></tr>
+    <tr><td><code>ejemplos/</code></td><td>Archivos .txt/.csv para probar la importación (incluye uno con datos inválidos).</td></tr>
+    <tr><td><code>Guia_de_uso.pdf</code>, <code>Informe.pdf</code></td><td>Guía de una página y este informe.</td></tr>
+  </table>
+
+  <h3>Herramientas y bibliotecas</h3>
+  <p>HTML, CSS y JavaScript estándar. <b>No se usan bibliotecas externas</b>: los cálculos están programados en <code>estadistica.js</code>. Los métodos numéricos usados son:</p>
+  <ul>
+    <li><b>ln Γ(x)</b>: aproximación de Lanczos (g = 7, 9 coeficientes), error relativo ≈ 10⁻¹⁵.</li>
+    <li><b>Gamma incompleta regularizada P(a, x)</b>: serie de potencias si x &lt; a + 1 y fracción continua (algoritmo de Lentz) en otro caso, con tolerancia 10⁻¹⁶.
+      Con ella se calculan las acumuladas Gamma P(α, x/θ), Ji cuadrada P(ν/2, x/2), Poisson P(X ≤ k) = 1 − P(k + 1, λ)
+      y Normal Φ(z) = ½[1 + P(½, z²/2)] para z ≥ 0 (por simetría para z &lt; 0). La lognormal usa Φ((ln x − μ)/σ).</li>
+    <li><b>Combinaciones</b>: enteros exactos (BigInt) para mostrar C(n, r) completo; en probabilidades binomiales e hipergeométricas se usan logaritmos para evitar desbordes.</li>
+    <li>Para <b>verificar</b> (no forma parte de la aplicación) se usó la biblioteca <i>mpmath</i> de Python con <code>mp.dps = 30</code> (30 dígitos):
+      <code>ncdf(z)</code> para Φ y <code>gammainc(a, 0, x, regularized=True)</code> para la gamma incompleta.</li>
+  </ul>
+
+  <h2>2. Situaciones aplicadas a Ingeniería en Sistemas</h2>
+  <h3>Situación 1 — Análisis descriptivo: tiempos de respuesta de una API</h3>
+  <p><b>Datos:</b> simulados. 12 tiempos de respuesta (ms) de un endpoint REST: 120, 135, 128, 140, 150, 128, 132, 145, 138, 128, 160, 126.</p>
+  <p><b>Modelo y justificación:</b> estadística descriptiva para datos sin agrupar, porque es una sola variable cuantitativa con pocos datos. Se consideran una
+    <b>muestra</b> de todas las peticiones que recibe el servidor, por lo que la varianza adecuada es la muestral (divide entre n − 1).</p>
+  <p><b>Resultado:</b> x̄ = 135.83 ms, mediana = 133.5 ms, moda = 128 ms, rango = 40 ms, s = 11.43 ms (σ = 10.95 ms si fuera población).
+    <b>Decisión:</b> el servicio responde típicamente en ≈ 136 ms con poca variación; el valor de 160 ms está a más de dos desviaciones estándar de la media (2s ≈ 22.9 ms) y conviene revisarlo como posible atípico.</p>
+
+  <h3>Situación 2 — Probabilidad: tickets de la mesa de ayuda</h3>
+  <p><b>Datos:</b> simulados. Se supone un promedio histórico de 6 tickets por hora.</p>
+  <p><b>Modelo y justificación:</b> <b>Poisson</b>, porque X cuenta eventos en un intervalo de tiempo, los tickets llegan de forma independiente, a una tasa promedio
+    estable, y no llegan dos al mismo instante. No es binomial porque no hay un número fijo de ensayos. Para un turno de 30 minutos se ajusta λ = 6 × 30/60 = 3.</p>
+  <p><b>Resultado:</b> P(X = 2) = 0.2240, P(X ≤ 2) = 0.4232 y P(X ≥ 2) = 0.8009. <b>Decisión:</b> en 8 de cada 10 turnos de media hora llegan al menos 2 tickets,
+    por lo que se justifica tener al menos un técnico dedicado en cada turno.</p>
+  <p>Los demás ejemplos precargados también son casos de Sistemas: pérdida de paquetes (binomial), licencias defectuosas (hipergeométrica), tiempo de descarga (uniforme),
+    tiempo de compilación (normal), tiempo para atender solicitudes (gamma), tiempo entre fallas de un servidor (exponencial), prueba de un generador de números
+    aleatorios (ji cuadrada), tamaño de archivos subidos (lognormal) y tiempo medio de respuesta (TLC).</p>
+
+  <h2>3. Cálculos verificados a mano</h2>
+  <div class="calc">
+    <p><b>A) Descriptiva (prueba P1).</b> Σx = 1630, n = 12 → x̄ = 1630/12 = 135.8333.</p>
+    <p>Σx² = 14400 + 18225 + 3(16384) + 19600 + 22500 + 17424 + 21025 + 19044 + 25600 + 15876 = 222 846.</p>
+    <p>Σ(x − x̄)² = Σx² − (Σx)²/n = 222 846 − 1630²/12 = 222 846 − 221 408.3333 = 1437.6667.</p>
+    <p>σ² = 1437.6667/12 = <b>119.8056</b> (σ = 10.9456) · s² = 1437.6667/11 = <b>130.6970</b> (s = 11.4323). Coincide con la aplicación.</p>
+    <p>Datos ordenados: 120, 126, 128, 128, 128, <u>132, 135</u>, 138, 140, 145, 150, 160 → mediana = (132 + 135)/2 = 133.5; moda = 128 (3 veces).</p>
+  </div>
+  <div class="calc">
+    <p><b>B) Binomial (prueba P3)</b>, n = 10, p = 0.1:</p>
+    <p>P(X = 0) = 0.9¹⁰ = 0.348678 · P(X = 1) = 10(0.1)(0.9⁹) = 0.387420 · P(X = 2) = C(10,2)(0.1²)(0.9⁸) = 45(0.01)(0.430467) = <b>0.193710</b>.</p>
+    <p>P(X ≤ 2) = 0.348678 + 0.387420 + 0.193710 = <b>0.929809</b> · P(X ≥ 2) = 1 − (0.348678 + 0.387420) = <b>0.263901</b>. Coincide con la tabla A.1 (0.9298).</p>
+  </div>
+  <div class="calc">
+    <p><b>C) Bayes (prueba P2)</b>: P(E) = 0.5(0.01) + 0.3(0.02) + 0.2(0.04) = 0.005 + 0.006 + 0.008 = <b>0.019</b>;
+      P(A₃|E) = 0.008/0.019 = <b>0.421053</b>; P(A₁|E) = 0.005/0.019 = 0.263158; P(A₂|E) = 0.006/0.019 = 0.315789.</p>
+  </div>
+  <div class="calc">
+    <p><b>D) Normal (prueba P7)</b>: z(45) = (45 − 50)/5 = −1.00 y z(58) = (58 − 50)/5 = 1.60. De la tabla A.3: Φ(−1.00) = 0.1587 y Φ(1.60) = 0.9452,
+      por lo que P(X ≥ 58) = 1 − 0.9452 = 0.0548 y P(45 ≤ X ≤ 58) = 0.9452 − 0.1587 = 0.7865. La aplicación da 0.158655, 0.054799 y 0.786545.</p>
+  </div>
+
+  <h2>4. Pruebas documentadas</h2>
+  <p>Se documentan <b>15 pruebas</b>: una por cada uno de los 12 módulos y 3 de entradas inválidas (el mínimo pedido es nueve). La prueba de Descriptiva compara la varianza
+    poblacional con la muestral, y la de Conteo y probabilidad es compuesta (combinaciones, unión, condicional y Bayes).</p>
+  <p><b>Tolerancia:</b> los resultados esperados están redondeados a 6 decimales, por lo que se acepta una diferencia absoluta |obtenido − esperado| ≤ 0.000001.
+    Los valores tomados de tablas impresas de 4 decimales (ji cuadrada) se comparan con tolerancia 0.0001. Las pruebas de entradas inválidas pasan si la aplicación
+    muestra un mensaje con el texto indicado y sigue funcionando.</p>
+  <p><b>Resultado obtenido:</b> la columna "Obtenido" de las tablas siguientes fue generada ejecutando el código de la aplicación al crear este documento.
+    Las mismas pruebas se pueden volver a ejecutar en <code>ABRIR.html</code> → <b>Comprobación</b>. <span id="resumen"></span></p>
+  <div id="pruebas"></div>
+
+  <h2>5. Conclusiones</h2>
+  <ul>
+    <li>La aplicación calcula correctamente las medidas descriptivas, las reglas de probabilidad, las 9 distribuciones y el teorema del límite central; las 15 pruebas coinciden con
+      los valores de referencia dentro de la tolerancia.</li>
+    <li>Elegir el modelo correcto depende de los supuestos: contar éxitos en n ensayos independientes (binomial), muestrear sin reemplazo (hipergeométrica),
+      contar eventos en un intervalo (Poisson, ajustando λ al intervalo) o medir tiempos (exponencial y gamma).</li>
+    <li>Es importante distinguir σ (desviación estándar) de σ² (varianza), la tasa λ del tiempo promedio 1/λ y los parámetros de ln X en la lognormal; la aplicación
+      permite ingresar cada uno de forma explícita para evitar errores.</li>
+    <li>El teorema del límite central muestra que el promedio de muchas mediciones varía mucho menos (σ/√n) que una medición individual.</li>
+  </ul>
+  <p style="font-size:9pt;color:#5b6775">Referencia: Walpole, R., Myers, R., Myers, S. y Ye, K. <i>Probabilidad y estadística para ingeniería y ciencias</i>. Pearson.</p>
+
+  <script src="../../recursos/js/estadistica.js"></script>
+  <script src="../../recursos/js/pruebas.js"></script>
+  <script>
+    (function () {
+      const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+      const val = x => typeof x === 'number' ? (Number.isInteger(x) ? String(x) : x.toFixed(6)) : esc(x);
+      const res = Pruebas.ejecutarTodas();
+      const ok = res.filter(p => p.pasa).length;
+      document.getElementById('resumen').innerHTML = `Resultado: <span class="${ok === res.length ? 'ok' : 'mal'}">${ok} de ${res.length} pruebas pasan</span>.`;
+      document.getElementById('pruebas').innerHTML = res.map(p => `
+        <div class="prueba">
+          <h3>${p.id} · ${esc(p.modulo)} — <span class="${p.pasa ? 'ok' : 'mal'}">${p.pasa ? 'PASA' : 'FALLA'}</span></h3>
+          <p><b>${esc(p.titulo)}</b></p>
+          <p><b>Entradas:</b> ${esc(p.entradas)}</p>
+          <table><tr><th>Medida</th><th>Resultado esperado</th><th>Resultado obtenido</th><th>Tolerancia</th><th>¿Pasa?</th></tr>
+          ${p.filas.map(f => `<tr><td>${esc(f.nombre)}</td><td class="${p.error ? '' : 'n'}">${val(f.esperado)}</td><td class="${p.error ? '' : 'n'}">${val(f.obtenido)}</td>
+            <td>${typeof f.tolerancia === 'number' ? (f.tolerancia === 0 ? 'exacto' : '± ' + f.tolerancia) : 'mensaje'}</td><td>${f.pasa ? 'Sí' : 'No'}</td></tr>`).join('')}
+          </table>
+          <p><b>Referencia:</b> ${esc(p.referencia)}</p>
+        </div>`).join('');
+    })();
+  </script>
+</body>
+</html>

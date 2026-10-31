@@ -1,0 +1,7 @@
+# Poisson
+promedio=6
+refIntervalo=60
+analizado=30
+unidad=min
+k=2
+variable=tickets de soporte

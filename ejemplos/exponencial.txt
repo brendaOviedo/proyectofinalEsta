@@ -1,0 +1,7 @@
+# Exponencial (tipoParametro: lambda o media)
+parametro=0.5
+tipoParametro=lambda
+a=1
+b=3
+variable=tiempo hasta la proxima falla
+unidad=h

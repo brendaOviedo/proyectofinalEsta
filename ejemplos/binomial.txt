@@ -1,0 +1,5 @@
+# Binomial
+n=10
+p=0.10
+k=2
+variable=paquetes perdidos

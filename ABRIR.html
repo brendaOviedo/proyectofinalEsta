@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora Estadística — Proyecto final Estadística I</title>
+  <link rel="stylesheet" href="recursos/estilos.css">
+</head>
+<body>
+  <header class="encabezado">
+    <button id="boton-menu" type="button" aria-label="Abrir menú">☰</button>
+    <div>
+      <h1>Calculadora Estadística</h1>
+      <p>Proyecto final · Estadística I · Ingeniería en Sistemas · Funciona sin internet</p>
+    </div>
+  </header>
+
+  <div class="contenedor">
+    <nav id="menu" aria-label="Módulos"></nav>
+
+    <main id="contenido">
+      <!-- ====================== INICIO ====================== -->
+      <section class="pagina" id="pag-inicio">
+        <h2>Bienvenido</h2>
+        <div class="tarjeta">
+          <h3>Cómo usar la aplicación</h3>
+          <ol>
+            <li>Elija un módulo en el menú de la izquierda.</li>
+            <li>Lea la teoría (definición, parámetros, supuestos, media y varianza).</li>
+            <li>Escriba los datos en los campos (use <b>punto</b> para decimales) o presione <b>Importar archivo…</b>
+              para leerlos de un archivo <code>.txt</code>/<code>.csv</code> (hay ejemplos en la carpeta <code>ejemplos</code>).</li>
+            <li>Presione <b>Cargar ejemplo</b> para ver un caso resuelto con su resultado esperado e interpretación.</li>
+            <li>Presione <b>Calcular</b>. Verá la tabla de resultados, el procedimiento paso a paso, una gráfica y la interpretación.</li>
+            <li>Presione <b>Limpiar</b> para borrar los campos. Si un dato es inválido, aparece un mensaje en rojo y la aplicación sigue funcionando.</li>
+          </ol>
+          <p class="nota">Todos los cálculos se hacen en este navegador con código propio (carpeta <code>recursos/js</code>); no se usa internet ni bibliotecas externas.
+            El módulo <a href="#comprobacion">Comprobación</a> ejecuta las pruebas documentadas y compara el resultado esperado con el obtenido.</p>
+        </div>
+
+        <div class="tarjeta">
+          <h3>Módulos y ejemplos precargados</h3>
+          <ul id="lista-modulos" class="columnas"></ul>
+        </div>
+
+        <div class="tarjeta">
+          <h3>Situación 1 (análisis descriptivo): tiempos de respuesta de una API</h3>
+          <p><b>Origen de los datos:</b> simulados. Representan 12 mediciones (ms) del tiempo de respuesta de un endpoint REST, similares a las que registra una herramienta de monitoreo.</p>
+          <p><b>Modelo elegido y justificación:</b> estadística descriptiva con datos sin agrupar, porque son pocos datos cuantitativos de una sola variable.
+            Se tratan como <b>muestra</b> (no se midieron todas las peticiones), por lo que se usa s² con n − 1. La media resume el rendimiento típico y la desviación estándar su estabilidad;
+            la mediana y la moda ayudan a ver si hay valores atípicos (por ejemplo, 160 ms).</p>
+          <p><a href="#descriptiva">Ir al módulo Descriptiva →</a> y presionar <b>Cargar ejemplo</b>.</p>
+        </div>
+
+        <div class="tarjeta">
+          <h3>Situación 2 (probabilidad): tickets de la mesa de ayuda</h3>
+          <p><b>Origen de los datos:</b> simulados. Se supone un promedio de 6 tickets por hora, como el que se obtendría del historial de un sistema de tickets.</p>
+          <p><b>Modelo elegido y justificación:</b> distribución de <b>Poisson</b>, porque X cuenta eventos (tickets) en un intervalo de tiempo fijo, los tickets llegan de forma
+            independiente, a una tasa promedio estable y no llegan dos exactamente al mismo instante. No es binomial porque no hay un número fijo de ensayos.
+            Para un turno de 30 min se ajusta λ = 6 × 30/60 = 3. El resultado (80 % de probabilidad de recibir al menos 2 tickets) ayuda a decidir cuántos técnicos asignar.</p>
+          <p><a href="#poisson">Ir al módulo Poisson →</a> y presionar <b>Cargar ejemplo</b>.</p>
+        </div>
+
+        <div class="tarjeta">
+          <h3>Conceptos generales</h3>
+          <p><b>Variable aleatoria (X):</b> función que asigna un número a cada resultado de un experimento aleatorio. Es <b>discreta</b> si toma valores contables
+            (binomial, hipergeométrica, Poisson) y <b>continua</b> si toma cualquier valor de un intervalo (uniforme, normal, gamma, exponencial, ji cuadrada, lognormal).</p>
+          <p><b>Esperanza E[X]:</b> valor promedio de X a largo plazo, si el experimento se repitiera muchas veces. Coincide con la media μ de la distribución.
+            La <b>varianza</b> mide cuánto se alejan los valores de X de su esperanza: Var(X) = E[(X − μ)²].</p>
+        </div>
+      </section>
+
+      <!-- ====================== COMPROBACIÓN ====================== -->
+      <section class="pagina" id="pag-comprobacion" hidden>
+        <h2>Comprobación: pruebas documentadas</h2>
+        <div class="tarjeta">
+          <p>Se documentan 15 pruebas: una por cada uno de los 12 módulos y 3 de entradas inválidas. Para cada una se registran las entradas,
+            el resultado esperado, el resultado obtenido (calculado ahora mismo por la aplicación), la tolerancia y la referencia.</p>
+          <p><b>Tolerancia:</b> los valores esperados están redondeados a 6 decimales, por lo que se acepta una diferencia absoluta de hasta 0.000001.
+            Los valores tomados de tablas impresas (ji cuadrada) se comparan con tolerancia 0.0001.</p>
+          <p><b>Referencias:</b> fórmulas verificadas a mano, tablas del libro de texto (Walpole, Myers y Myers, <i>Probabilidad y estadística para ingeniería y ciencias</i>)
+            y la biblioteca <i>mpmath</i> de Python con 30 dígitos de precisión (usada solo para verificar, no forma parte de la aplicación).</p>
+        </div>
+        <div id="resumen-pruebas" class="mensaje"></div>
+        <div id="lista-pruebas"></div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="pie">Calculadora Estadística · Proyecto final Estadística I · Funciona sin conexión a internet</footer>
+
+  <script src="recursos/js/estadistica.js"></script>
+  <script src="recursos/js/pruebas.js"></script>
+  <script src="recursos/js/modulos.js"></script>
+  <script src="recursos/js/app.js"></script>
+</body>
+</html>

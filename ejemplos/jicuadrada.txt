@@ -1,0 +1,5 @@
+# Ji cuadrada
+nu=10
+a=3.940
+b=18.307
+variable=estadistico de prueba

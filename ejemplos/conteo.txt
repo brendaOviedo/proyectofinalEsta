@@ -1,0 +1,11 @@
+# Conteo y probabilidad: formato clave=valor
+n=10
+r=3
+pA=0.30
+pB=0.25
+pAyB=0.10
+cAyB=0.10
+cB=0.25
+priores=0.5, 0.3, 0.2
+veros=0.01, 0.02, 0.04
+nombres=Servidor 1, Servidor 2, Servidor 3

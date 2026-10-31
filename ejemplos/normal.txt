@@ -1,0 +1,8 @@
+# Normal (tipoSigma: sigma o varianza)
+mu=50
+sigma=5
+tipoSigma=sigma
+a=45
+b=58
+variable=tiempo de compilacion
+unidad=s

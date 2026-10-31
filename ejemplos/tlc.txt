@@ -1,0 +1,9 @@
+# Teorema del limite central (tipo: media o suma)
+mu=200
+sigma=40
+n=64
+tipo=suma
+a=12500
+b=13000
+variable=tiempo de respuesta
+unidad=ms

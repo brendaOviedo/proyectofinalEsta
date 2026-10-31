@@ -1,0 +1,7 @@
+# Gamma
+alfa=3
+theta=2
+a=4
+b=8
+variable=tiempo para atender 3 solicitudes
+unidad=min

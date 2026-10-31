@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Guía de uso — Calculadora Estadística</title>
+<style>
+  @page { size: letter; margin: 13mm 15mm; }
+  body { font: 10.4pt/1.38 "Segoe UI", Arial, sans-serif; color: #1d2733; margin: 0; }
+  h1 { font-size: 17pt; margin: 0; color: #174a78; }
+  .sub { color: #5b6775; margin: 2px 0 10px; font-size: 9.5pt; }
+  h2 { font-size: 11.5pt; color: #fff; background: #1f5f99; padding: 3px 9px; border-radius: 4px; margin: 10px 0 5px; }
+  ol, ul { margin: 3px 0; padding-left: 20px; }
+  li { margin-bottom: 2px; }
+  code { background: #eef2f6; padding: 0 4px; border-radius: 3px; font-size: 9.2pt; }
+  .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; }
+  .caja { border: 1px solid #d6dde5; border-radius: 6px; padding: 5px 10px; margin-top: 6px; background: #f7f9fb; }
+  .b { display: inline-block; border: 1px solid #1f5f99; color: #1f5f99; border-radius: 4px; padding: 0 6px; font-weight: 600; font-size: 9pt; }
+  .b.p { background: #1f5f99; color: #fff; }
+  .c { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; }
+</style>
+</head>
+<body>
+  <h1>Guía de uso — Calculadora Estadística</h1>
+  <p class="sub">Proyecto final · Estadística I · Ingeniería en Sistemas. Funciona sin internet, sin instalar programas y sin cuentas.</p>
+
+  <h2>1. Abrir la aplicación</h2>
+  <ol>
+    <li>Descomprima el archivo .zip (clic derecho → <i>Extraer todo…</i>). No abra la aplicación desde dentro del .zip.</li>
+    <li>En la carpeta extraída, haga <b>doble clic en <code>ABRIR.html</code></b>. Se abre en el navegador predeterminado (Chrome, Edge o Firefox).</li>
+    <li>No mueva ni borre la carpeta <code>recursos</code>: contiene los estilos y el código de cálculo que necesita <code>ABRIR.html</code>.</li>
+  </ol>
+
+  <h2>2. Elegir el módulo</h2>
+  <p>En el menú de la izquierda (en celular, botón ☰) elija uno de los 12 módulos: <b>Descriptiva, Conteo y probabilidad, Binomial, Hipergeométrica,
+    Poisson, Uniforme continua, Normal, Gamma, Exponencial, Ji cuadrada, Lognormal y Teorema del límite central</b>. Cada módulo inicia con la teoría:
+    definición, parámetros, supuestos, media (esperanza) y varianza. <b>Comprobación</b> ejecuta las 15 pruebas documentadas.</p>
+
+  <h2>3. Ingresar los datos</h2>
+  <div class="dos">
+    <div>
+      <ul>
+        <li>Escriba cada valor en su campo; debajo de cada campo hay una instrucción. Use <b>punto</b> para decimales: <code>0.25</code>.</li>
+        <li>En Descriptiva, separe los datos con comas, espacios o saltos de línea.</li>
+        <li>Los campos <i>(opcional)</i>, como la unidad o qué representa X, solo mejoran la interpretación.</li>
+        <li>En distribuciones continuas: <b>a</b> = límite inferior y <b>b</b> = límite superior (a &lt; b).</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li><span class="b">Cargar ejemplo</span> llena el formulario con un caso de Ingeniería en Sistemas y muestra sus entradas, el resultado esperado y la interpretación.</li>
+        <li><span class="b">Importar archivo…</span> lee un <code>.txt</code>/<code>.csv</code>. Descriptiva: números. Otros módulos: una línea <code>clave=valor</code> por campo. Hay modelos en la carpeta <code>ejemplos</code>.</li>
+        <li><span class="b">Limpiar</span> borra los campos y el resultado.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>4. Calcular y leer el resultado</h2>
+  <ol>
+    <li>Presione <span class="b p">Calcular</span>. Aparece la tarjeta <b>Resultado</b> con:</li>
+  </ol>
+  <ul>
+    <li><b>Tabla:</b> cada medida con su valor (6 decimales) y su porcentaje. En Descriptiva se resalta la varianza que corresponde (muestra o población).</li>
+    <li><b>Gráfica:</b> en las continuas, <span class="c" style="background:#d9822b"></span> P(X ≤ a) a la izquierda,
+      <span class="c" style="background:#2b7bb9"></span> P(a ≤ X ≤ b) entre los límites y <span class="c" style="background:#8e44ad"></span> P(X ≥ b) a la derecha.
+      En las discretas, la barra azul es x = k.</li>
+    <li><b>Procedimiento:</b> la fórmula con los valores sustituidos, paso a paso (incluye la estandarización z cuando aplica).</li>
+    <li><b>Interpretación:</b> qué significa el resultado en el contexto del problema.</li>
+  </ul>
+
+  <h2>5. Entradas inválidas</h2>
+  <p>Si un dato no es válido (texto en lugar de número, coma decimal, probabilidad mayor que 1, a ≥ b, n no entero, etc.) aparece un
+    <b style="color:#b42318">mensaje en rojo</b> que explica el problema y el campo se marca. La aplicación sigue funcionando: corrija el dato y presione Calcular de nuevo.</p>
+
+  <div class="caja"><b>Demostración sugerida:</b> abrir <code>ABRIR.html</code> → menú <i>Normal</i> → <span class="b">Cargar ejemplo</span> → <span class="b p">Calcular</span>
+    → cambiar σ de 5 a 4 → Calcular → escribir <code>abc</code> en μ → Calcular (mensaje de error) → <span class="b">Limpiar</span>.</div>
+</body>
+</html>

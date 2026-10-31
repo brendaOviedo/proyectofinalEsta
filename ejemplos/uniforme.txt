@@ -1,0 +1,7 @@
+# Uniforme continua
+minimo=2
+maximo=10
+a=4
+b=7
+variable=tiempo de descarga
+unidad=s
